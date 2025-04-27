@@ -1,0 +1,68 @@
+# === 빌드 결과물 (Gradle) ===
+/build/
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# === IDE 설정 파일 (IntelliJ IDEA) ===
+/.idea/
+/.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+.idea/**/gradle.xml
+.idea/**/libraries
+.idea/modules.xml
+.idea/.name
+.idea/runConfigurations/
+*.iml
+
+# VSCode (혹시 열 경우를 대비)
+/.vscode/
+
+# === 시스템/운영체제 쓰레기 파일 ===
+.DS_Store
+Thumbs.db
+
+# === 로그 파일 ===
+*.log
+/logs/
+
+# === 환경 변수 파일 / 민감 설정 파일 ===
+*.env
+.env
+application-*.yml
+application-*.properties
+
+# === 테스트 결과물 ===
+test-results/
+test-output/
+
+# === 개발용 데이터베이스 파일 ===
+*.h2.db
+*.mv.db
+*.db
+
+# === 기타 임시/백업 파일 ===
+*.swp
+*.swo
+*.tmp
+*~
+*.bak
+
+# === MacOS Spotlight 파일 ===
+.AppleDouble
+.LSOverride
+
+# === Windows Thumbnail 파일 ===
+ehthumbs.db
+Desktop.ini
+
+# === Linux 관련 ===
+*~
+
+# === 기타 ===
+# gradle에 의해 생성되는 .jar/.war/.ear 결과물 제외
+*.jar
+*.war
+*.ear

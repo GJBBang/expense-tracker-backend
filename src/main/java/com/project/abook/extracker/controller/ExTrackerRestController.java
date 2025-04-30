@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/exTracker")
+@RequestMapping("/api/v1")
 public class ExTrackerRestController implements ExTrackerRestControllerDocs {
 
     private final ExTrackerService exTrackerService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/exTracker/{id}")
     public ResponseEntity<String> getExTracker(@PathVariable("id") Long id) {
         ExTracker exTracker = exTrackerService.findById(id)
                 .orElseThrow(() -> new RuntimeException("ExTracker not found"));
@@ -26,11 +28,19 @@ public class ExTrackerRestController implements ExTrackerRestControllerDocs {
         return ResponseEntity.ok(exTracker.toString());
     }
 
-    @PostMapping("/save")
+    @PostMapping("/exTracker/save")
     public ResponseEntity<Void> saveExTracker(@RequestBody ExTracker exTracker) {
 
         ExTracker save = exTrackerService.save(exTracker);
 
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/exTrackers")
+    public ResponseEntity<List<ExTracker>> getAllExTrackers() {
+        List<ExTracker> exTrackers = exTrackerService.findAll();
+
+        return ResponseEntity.ok(exTrackers);
+    }
+
 }

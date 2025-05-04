@@ -2,6 +2,8 @@ package com.project.abook.extracker.domain;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,6 +27,9 @@ public class ExTracker {
     private String description;          // 설명
 
     private Long amount;                 // 금액
+
+    @Enumerated(EnumType.STRING)
+    private EntryType type;              // 수입/지출 구분
 
     private String memo;                 // 추가 메모
 

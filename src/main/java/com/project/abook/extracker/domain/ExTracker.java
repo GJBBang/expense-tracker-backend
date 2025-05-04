@@ -31,6 +31,9 @@ public class ExTracker {
     @Enumerated(EnumType.STRING)
     private EntryType type;              // 수입/지출 구분
 
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;    // 결제 수단
+
     private String memo;                 // 추가 메모
 
     private LocalDateTime createdAt;     // 생성일

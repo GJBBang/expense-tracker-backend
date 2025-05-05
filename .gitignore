@@ -34,6 +34,7 @@ Thumbs.db
 application-*.yml
 application-*.properties
 *.properties
+*.yml
 
 # === 테스트 결과물 ===
 test-results/

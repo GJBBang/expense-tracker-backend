@@ -17,6 +17,9 @@
 .idea/runConfigurations/
 *.iml
 
+/out/
+/target/
+
 # VSCode (혹시 열 경우를 대비)
 /.vscode/
 

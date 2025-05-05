@@ -16,12 +16,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/exTrackers")
 public class ExTrackerRestController implements ExTrackerRestControllerDocs {
 
     private final ExTrackerService exTrackerService;
 
-    @GetMapping("/exTracker/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<String> getExTracker(@PathVariable("id") Long id) {
         ExTracker exTracker = exTrackerService.findById(id)
                 .orElseThrow(() -> new RuntimeException("ExTracker not found"));
@@ -29,7 +29,7 @@ public class ExTrackerRestController implements ExTrackerRestControllerDocs {
         return ResponseEntity.ok(exTracker.toString());
     }
 
-    @PostMapping("/exTracker/save")
+    @PostMapping("/save")
     public ResponseEntity<Void> saveExTracker(@RequestBody ExTracker exTracker) {
 
         ExTracker save = exTrackerService.save(exTracker);
@@ -37,14 +37,14 @@ public class ExTrackerRestController implements ExTrackerRestControllerDocs {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/exTrackers")
+    @GetMapping
     public ResponseEntity<List<ExTracker>> getAllExTrackers() {
         List<ExTracker> exTrackers = exTrackerService.findAll();
 
         return ResponseEntity.ok(exTrackers);
     }
 
-    @PutMapping("/exTracker/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Void> updateExTracker(@RequestBody ExTracker exTracker) {
 
         exTrackerService.update(exTracker);

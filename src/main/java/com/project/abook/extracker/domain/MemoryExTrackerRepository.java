@@ -2,7 +2,6 @@ package com.project.abook.extracker.domain;
 
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +25,7 @@ public class MemoryExTrackerRepository implements ExTrackerRepository {
 
     @Override
     public ExTracker save(ExTracker exTracker) {
-        exTracker.setId(++sequence);
-        store.put(exTracker.getId(), exTracker);
+        store.put(sequence++, exTracker);
 
         return exTracker;
     }

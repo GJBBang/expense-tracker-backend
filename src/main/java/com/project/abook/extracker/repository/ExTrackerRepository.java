@@ -1,4 +1,6 @@
-package com.project.abook.extracker.domain;
+package com.project.abook.extracker.repository;
+
+import com.project.abook.extracker.domain.ExTracker;
 
 import java.util.List;
 import java.util.Optional;

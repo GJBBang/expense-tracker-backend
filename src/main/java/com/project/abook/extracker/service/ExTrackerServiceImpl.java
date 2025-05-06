@@ -1,9 +1,8 @@
 package com.project.abook.extracker.service;
 
 import com.project.abook.extracker.domain.ExTracker;
-import com.project.abook.extracker.domain.ExTrackerRepository;
+import com.project.abook.extracker.repository.ExTrackerRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

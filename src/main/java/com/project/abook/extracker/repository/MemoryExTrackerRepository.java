@@ -1,5 +1,6 @@
-package com.project.abook.extracker.domain;
+package com.project.abook.extracker.repository;
 
+import com.project.abook.extracker.domain.ExTracker;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

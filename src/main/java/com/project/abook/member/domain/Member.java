@@ -1,4 +1,4 @@
-package com.project.abook.user.domain;
+package com.project.abook.member.domain;
 
 import com.project.abook.global.domain.BaseEntity;
 import jakarta.persistence.Column;
@@ -10,14 +10,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class User extends BaseEntity {
+public class Member extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @Column(name = "member_id")
     private Long id;
 
     @Column(name = "username", length = 20, nullable = false)
@@ -30,7 +28,7 @@ public class User extends BaseEntity {
     private String password;
 
     @Builder
-    public User(String username, String password, String email) {
+    public Member(String username, String password, String email) {
         this.username = username;
         this.password = password;
         this.email = email;

@@ -1,5 +1,6 @@
 package com.project.abook.extracker.domain;
 
+import com.project.abook.global.domain.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -14,7 +15,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-public class ExTracker {
+public class ExTracker extends BaseEntity {
 
     @Schema(defaultValue = "1")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +36,4 @@ public class ExTracker {
     private PaymentMethod paymentMethod;    // 결제 수단
 
     private String memo;                 // 추가 메모
-
-    private LocalDateTime createdAt;     // 생성일
-    private LocalDateTime updatedAt;     // 수정일
 }

@@ -1,4 +1,4 @@
-package com.project.abook.common.config;
+package com.project.abook.global.config;
 
 import org.springframework.context.annotation.Configuration;
 

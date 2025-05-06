@@ -15,10 +15,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberMapper memberMapper;
 
     @Override
-    public Long save(MemberRegisterRequest request) {
-
-        Member member = memberMapper.toMember(request);
-
-        return memberRepository.save(member).getId();
+    public Member save(MemberRegisterRequest request) {
+        return memberRepository.save(memberMapper.toMember(request));
     }
 }

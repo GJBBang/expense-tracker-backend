@@ -17,7 +17,7 @@ public class MemberRestController {
     private final MemberServiceImpl memberService;
 
     @PostMapping("/join")
-    public ResponseEntity<Void> MemberRestController(@RequestBody MemberRegisterRequest request) {
+    public ResponseEntity<Void> join(@RequestBody MemberRegisterRequest request) {
         memberService.save(request);
         return ResponseEntity.noContent().build();
     }

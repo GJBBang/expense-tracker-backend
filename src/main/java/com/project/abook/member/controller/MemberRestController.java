@@ -1,5 +1,6 @@
 package com.project.abook.member.controller;
 
+import com.project.abook.global.dto.ApiResponse;
 import com.project.abook.member.dto.MemberRegisterRequest;
 import com.project.abook.member.service.MemberServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,9 @@ public class MemberRestController {
     public ResponseEntity join(@RequestBody MemberRegisterRequest request) {
         memberService.save(request);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "성공");
-        response.put("success", true);
-        response.put("token", "2103fsodjf002e0");
-        return ResponseEntity.ok(response);
+        Map<String, Object> data = new HashMap<>();
+        data.put("token", "2103fsodjf002e0");
+
+        return ResponseEntity.ok(ApiResponse.ok("회원가입 성공", data));
     }
 }

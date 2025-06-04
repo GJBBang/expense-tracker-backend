@@ -2,15 +2,29 @@ package com.project.abook.auth.infrastructure;
 
 import com.project.abook.auth.domain.Authority;
 import com.project.abook.auth.dto.TokenResponse;
+import com.project.abook.global.exception.ErrorCode;
+import com.project.abook.global.exception.JwtException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
@@ -57,5 +71,26 @@ public class JwtTokenProvider {
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();
+    }
+
+    public Authentication resolveAccessToken(String accessToken) {
+        try {
+            Claims claims = Jwts.parserBuilder().setSigningKey(key).build()
+                    .parseClaimsJws(accessToken).getBody();
+
+            Collection<? extends GrantedAuthority> authorities =
+                    Arrays.stream(claims.get(JWT_PAYLOAD_AUTHORITY_TYPE).toString().split(","))
+                            .map(SimpleGrantedAuthority::new)
+                            .collect(Collectors.toList());
+            return new UsernamePasswordAuthenticationToken(claims.getSubject(), accessToken, authorities);
+        } catch (ExpiredJwtException e) {
+            throw new JwtException(ErrorCode.INVALID_EXPIRED_JWT);
+        } catch (SecurityException | MalformedJwtException e) {
+            throw new JwtException(ErrorCode.INVALID_MALFORMED_JWT);
+        } catch (UnsupportedJwtException e) {
+            throw new JwtException(ErrorCode.INVALID_UNSUPPORTED_JWT);
+        } catch (IllegalArgumentException | SignatureException e) {
+            throw new JwtException(ErrorCode.INVALID_ILLEGAL_ARGUMENT_JWT);
+        }
     }
 }

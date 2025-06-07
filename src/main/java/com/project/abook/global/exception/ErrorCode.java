@@ -27,6 +27,9 @@ public enum ErrorCode {
     AUTHORITY_ACCESS_DENIED(HttpStatus.UNAUTHORIZED, "접근 권한이 없는 권한코드입니다.", "A02"),
     AUTHORITY_ENTRY_POINT(HttpStatus.UNAUTHORIZED, "오류가 있는 권한코드입니다.", "A03"),
 
+    // member
+    MEMBER_NOT_FOUND_BY_MEMBER_NAME(HttpStatus.NOT_FOUND, "존재하지 않는 아이디입니다.", "M01"),
+
     ;
 
     private final HttpStatus httpStatus;

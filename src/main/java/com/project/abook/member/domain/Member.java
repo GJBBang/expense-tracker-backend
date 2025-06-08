@@ -1,8 +1,11 @@
 package com.project.abook.member.domain;
 
+import com.project.abook.auth.domain.Authority;
 import com.project.abook.global.domain.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,11 +33,15 @@ public class Member extends BaseEntity {
     @Column(name = "password", length = 255, nullable = false)
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
     @Builder
     public Member(String memberName, String password, String email) {
         this.memberName = memberName;
         this.password = password;
         this.email = email;
+        this.authority = Authority.ROLE_MEMBER;
     }
 
     public void encryptPassword(PasswordEncoder passwordEncoder) {

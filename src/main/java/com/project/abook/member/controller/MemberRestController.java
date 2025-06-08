@@ -2,7 +2,7 @@ package com.project.abook.member.controller;
 
 import com.project.abook.global.dto.ApiResponse;
 import com.project.abook.member.dto.MemberRegisterRequest;
-import com.project.abook.member.service.MemberServiceImpl;
+import com.project.abook.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +18,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/members")
 public class MemberRestController {
 
-    private final MemberServiceImpl memberService;
+    private final MemberService memberService;
 
     @PostMapping("/join")
     public ResponseEntity join(@RequestBody MemberRegisterRequest request) {

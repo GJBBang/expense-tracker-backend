@@ -14,13 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class MemberServiceImpl implements MemberService {
+public class MemberService {
 
     private final MemberRepository memberRepository;
     private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
 
-    @Override
     public Long save(MemberRegisterRequest request) {
 
         Member member = memberMapper.toMember(request);

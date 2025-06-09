@@ -1,6 +1,6 @@
 package com.project.abook.auth.controller;
 
-import com.project.abook.auth.dto.LoginRequest;
+import com.project.abook.auth.dto.request.LoginRequest;
 import com.project.abook.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -51,7 +51,7 @@ public class Member extends BaseEntity {
     }
 
     public void checkPassword(PasswordEncoder passwordEncoder, String password) {
-        if (!passwordEncoder.matches(this.password, password)) {
+        if (!passwordEncoder.matches(password, this.password)) {
             throw new BusinessException(ErrorCode.MEMBER_LOGIN_ERROR_BY_PASSWORD);
         }
     }

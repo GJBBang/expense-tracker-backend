@@ -1,4 +1,4 @@
-package com.project.abook.auth.dto;
+package com.project.abook.auth.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

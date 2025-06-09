@@ -29,6 +29,13 @@ public enum ErrorCode {
 
     // member
     MEMBER_NOT_FOUND_BY_MEMBER_NAME(HttpStatus.NOT_FOUND, "존재하지 않는 아이디입니다.", "M01"),
+    MEMBER_LOGIN_ID_DUPLICATED(HttpStatus.CONFLICT, "이미 존재하는 로그인 아이디 입니다.", "M02"),
+    MEMBER_USERNAME_DUPLICATED(HttpStatus.CONFLICT, "이미 존재하는 닉네임 입니다.", "M03"),
+    MEMBER_LOGIN_ERROR_BY_PASSWORD(HttpStatus.UNAUTHORIZED, "비밀번호가 일치하지 않습니다", "M04"),
+    MEMBER_USERNAME_DUPLICATED_BECAUSE_OF_YOU(HttpStatus.CONFLICT, "회원님이 이미 사용 중인 닉네임입니다.", "M05"),
+    MEMBER_PHONE_NUMBER_DUPLICATED(HttpStatus.CONFLICT, "이미 인증된 전화번호 입니다.", "M06"),
+    MEMBER_NOT_SOCIAL_USER(HttpStatus.CONFLICT, "해당 회원은 소셜 아이디 로그인 회원이 아닙니다.", "M07"),
+    MEMBER_NOT_YOUR_PHONE_NUMBER(HttpStatus.CONFLICT, "회원의 전화번호가 아닙니다.", "M08"),
 
     ;
 

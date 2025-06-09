@@ -2,6 +2,8 @@ package com.project.abook.member.domain;
 
 import com.project.abook.auth.domain.Authority;
 import com.project.abook.global.domain.BaseEntity;
+import com.project.abook.global.exception.BusinessException;
+import com.project.abook.global.exception.ErrorCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -46,5 +48,11 @@ public class Member extends BaseEntity {
 
     public void encryptPassword(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);
+    }
+
+    public void checkPassword(PasswordEncoder passwordEncoder, String password) {
+        if (!passwordEncoder.matches(this.password, password)) {
+            throw new BusinessException(ErrorCode.MEMBER_LOGIN_ERROR_BY_PASSWORD);
+        }
     }
 }

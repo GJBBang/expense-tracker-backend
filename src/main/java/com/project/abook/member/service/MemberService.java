@@ -22,10 +22,21 @@ public class MemberService {
 
     public Long save(MemberRegisterRequest request) {
 
+        // member 저장 전 검증
+        checkDuplicateMemberName(request.getMemberName());
+        
+
+        // 저장
         Member member = memberMapper.toMember(request);
         member.encryptPassword(passwordEncoder);
 
         return memberRepository.save(member).getId();
+    }
+
+    public void checkDuplicateMemberName(String memberName) {
+        if (memberRepository.existsByMemberName(memberName)) {
+            throw new BusinessException(ErrorCode.MEMBER_USERNAME_DUPLICATED_BECAUSE_OF_YOU);
+        }
     }
 
     @Transactional(readOnly = true)

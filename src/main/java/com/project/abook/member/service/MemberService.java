@@ -1,5 +1,6 @@
 package com.project.abook.member.service;
 
+import com.project.abook.auth.service.AuthService;
 import com.project.abook.global.exception.BusinessException;
 import com.project.abook.global.exception.ErrorCode;
 import com.project.abook.global.util.ServiceUtils;
@@ -17,9 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository memberRepository;
-    private final MemberMapper memberMapper;
     private final PasswordEncoder passwordEncoder;
+
+    private final AuthService authService;
+
+    private final MemberMapper memberMapper;
+
+    private final MemberRepository memberRepository;
+
+
 
     public Long save(MemberRegisterRequest request) {
 
@@ -30,6 +37,9 @@ public class MemberService {
         // 저장
         Member member = memberMapper.toMember(request);
         member.encryptPassword(passwordEncoder);
+
+        // 저장 후 자동 로그인 처리
+        authService.login(memberMapper.toLoginRequest(request));
 
         return memberRepository.save(member).getId();
     }

@@ -2,6 +2,7 @@ package com.project.abook.member.service;
 
 import com.project.abook.global.exception.BusinessException;
 import com.project.abook.global.exception.ErrorCode;
+import com.project.abook.global.util.ServiceUtils;
 import com.project.abook.member.domain.Member;
 import com.project.abook.member.dto.MemberRegisterRequest;
 import com.project.abook.member.mapper.MemberMapper;
@@ -24,7 +25,7 @@ public class MemberService {
 
         // member 저장 전 검증
         checkDuplicateMemberName(request.getMemberName());
-        
+
 
         // 저장
         Member member = memberMapper.toMember(request);
@@ -34,9 +35,8 @@ public class MemberService {
     }
 
     public void checkDuplicateMemberName(String memberName) {
-        if (memberRepository.existsByMemberName(memberName)) {
-            throw new BusinessException(ErrorCode.MEMBER_USERNAME_DUPLICATED_BECAUSE_OF_YOU);
-        }
+        ServiceUtils.throwIfExists(() -> memberRepository.existsByMemberName(memberName),
+                ErrorCode.MEMBER_USERNAME_DUPLICATED);
     }
 
     @Transactional(readOnly = true)

@@ -37,7 +37,7 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
         Member member = memberService.findByUserId(request.getUserId());
-        member.checkPassword(passwordEncoder, member.getPassword());
+//        member.checkPassword(passwordEncoder, member.getPassword());
 
         TokenResponse tokenResponse = jwtTokenProvider.createToken(member.getUserId(), member.getAuthority());
         log.debug("access token: {}", tokenResponse.getAccessToken());
@@ -47,7 +47,7 @@ public class AuthService {
 
         return LoginResponse.builder()
                 .userId(member.getUserId())
-                .token(refreshToken)
+                .token(tokenResponse.getAccessToken())
                 .build();
     }
 
@@ -70,6 +70,5 @@ public class AuthService {
     public void handleMemberRegisterEvent(MemberRegisterEvent event) {
         LoginRequest loginRequest = authMapper.toLoginRequest(event);
         LoginResponse loginResponse = login(loginRequest);
-        log.debug("loginResponse: {}", loginResponse.toString());
     }
 }

@@ -1,5 +1,7 @@
 package com.project.abook.member.service;
 
+import com.project.abook.auth.domain.RefreshToken;
+import com.project.abook.auth.repository.RefreshTokenRepository;
 import com.project.abook.global.exception.BusinessException;
 import com.project.abook.global.exception.ErrorCode;
 import com.project.abook.global.util.ServiceUtils;
@@ -9,12 +11,16 @@ import com.project.abook.member.dto.request.MemberRegisterRequest;
 import com.project.abook.member.mapper.MemberMapper;
 import com.project.abook.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
+@Slf4j
 @Transactional
 @RequiredArgsConstructor
 public class MemberService {
@@ -25,6 +31,7 @@ public class MemberService {
     private final MemberMapper memberMapper;
 
     private final MemberRepository memberRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
 
 
@@ -36,14 +43,22 @@ public class MemberService {
         // 저장
         Member member = memberMapper.toMember(request);
         member.encryptPassword(passwordEncoder);
-//        memberRepository.save(member);
+        memberRepository.save(member);
 
-        // 저장 후 자동 로그인 처리
+        // 자동 로그인 이벤트 처리 (순환 참조로 인한 이벤트리스너 처리)
         eventPublisher.publishEvent(MemberRegisterEvent.builder()
                 .userId(request.getUserId())
                 .password(request.getPassword())
                 .build()
         );
+
+        // 로그인 응답 처리
+        log.debug("Save member id : {}", member.getUserId());
+        log.debug("Save member password : {}", member.getPassword());
+
+        refreshTokenRepository.findByUserId(member.getUserId());
+        // 자동 로그인에서 access token 어떻게 반환하지 ?
+
         return 1L;
     }
 

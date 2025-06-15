@@ -2,11 +2,10 @@ package com.project.abook.auth.service;
 
 import com.project.abook.auth.domain.RefreshToken;
 import com.project.abook.auth.dto.request.LoginRequest;
+import com.project.abook.auth.dto.response.response.LoginResponse;
 import com.project.abook.auth.dto.response.response.TokenResponse;
 import com.project.abook.auth.infrastructure.JwtTokenProvider;
 import com.project.abook.auth.repository.RefreshTokenRepository;
-import com.project.abook.global.exception.BusinessException;
-import com.project.abook.global.exception.ErrorCode;
 import com.project.abook.member.domain.Member;
 import com.project.abook.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +30,7 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
 
 
-    public void login(LoginRequest request) {
+    public LoginResponse login(LoginRequest request) {
         Member member = memberService.findByUserName(request.getUserName());
         member.checkPassword(passwordEncoder, member.getPassword());
 
@@ -41,7 +40,10 @@ public class AuthService {
         String refreshToken = saveRefreshToken(member, tokenResponse);
         log.debug("refresh token: {}", refreshToken);
 
-        throw new BusinessException(ErrorCode.GLOBAL_INTERNAL_SERVER_ERROR);
+        return LoginResponse.builder()
+                .userId(member.getUserId())
+                .token(refreshToken)
+                .build();
     }
 
     public String saveRefreshToken(Member member, TokenResponse tokenResponse) {

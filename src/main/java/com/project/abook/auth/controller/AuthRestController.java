@@ -20,7 +20,7 @@ public class AuthRestController {
     @PostMapping("/members/login")
     public ResponseEntity<Void> login(LoginRequest request) {
 
-        log.debug("request Name : {}", request.getUserName());
+        log.debug("request Id : {}", request.getUserId());
         log.debug("request Password : {}", request.getPassword());
 
         authService.login(request);

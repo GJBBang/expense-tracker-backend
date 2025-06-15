@@ -1,7 +1,7 @@
 package com.project.abook.member.service;
 
 import com.project.abook.member.domain.Member;
-import com.project.abook.member.dto.MemberRegisterRequest;
+import com.project.abook.member.dto.request.MemberRegisterRequest;
 import com.project.abook.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;

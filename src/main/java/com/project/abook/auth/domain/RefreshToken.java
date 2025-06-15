@@ -21,16 +21,19 @@ public class RefreshToken {
 
     private String refreshToken;
 
-    private String memeberName;
+    private String userId;
+
+    private String userName;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime expireAt;
 
     @Builder
-    public RefreshToken(String refreshToken, String memeberName, LocalDateTime createdAt, LocalDateTime expireAt) {
+    public RefreshToken(String refreshToken, String userId, String userName, LocalDateTime createdAt, LocalDateTime expireAt) {
         this.refreshToken = refreshToken;
-        this.memeberName = memeberName;
+        this.userId = userId;
+        this.userName = userName;
         this.createdAt = createdAt;
         this.expireAt = expireAt;
     }

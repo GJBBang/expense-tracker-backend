@@ -1,6 +1,5 @@
-package com.project.abook.auth.dto.response.response;
+package com.project.abook.auth.dto.response;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 

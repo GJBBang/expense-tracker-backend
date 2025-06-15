@@ -2,14 +2,16 @@ package com.project.abook.auth.service;
 
 import com.project.abook.auth.domain.RefreshToken;
 import com.project.abook.auth.dto.request.LoginRequest;
-import com.project.abook.auth.dto.response.response.LoginResponse;
-import com.project.abook.auth.dto.response.response.TokenResponse;
+import com.project.abook.auth.dto.response.LoginResponse;
+import com.project.abook.auth.dto.response.TokenResponse;
 import com.project.abook.auth.infrastructure.JwtTokenProvider;
 import com.project.abook.auth.repository.RefreshTokenRepository;
 import com.project.abook.member.domain.Member;
+import com.project.abook.member.dto.event.MemberRegisterEvent;
 import com.project.abook.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,10 +33,10 @@ public class AuthService {
 
 
     public LoginResponse login(LoginRequest request) {
-        Member member = memberService.findByUserName(request.getUserName());
+        Member member = memberService.findByUserId(request.getUserId());
         member.checkPassword(passwordEncoder, member.getPassword());
 
-        TokenResponse tokenResponse = jwtTokenProvider.createToken(member.getUserName(), member.getAuthority());
+        TokenResponse tokenResponse = jwtTokenProvider.createToken(member.getUserId(), member.getAuthority());
         log.debug("access token: {}", tokenResponse.getAccessToken());
 
         String refreshToken = saveRefreshToken(member, tokenResponse);
@@ -47,10 +49,11 @@ public class AuthService {
     }
 
     public String saveRefreshToken(Member member, TokenResponse tokenResponse) {
-        RefreshToken refreshToken = refreshTokenRepository.findByUserName(member.getUserName())
+        RefreshToken refreshToken = refreshTokenRepository.findByUserId(member.getUserId())
                 .orElse(RefreshToken.builder()
                         .refreshToken(tokenResponse.getRefreshToken())
-                        .memeberName(member.getUserName())
+                        .userId(member.getUserId())
+                        .userName(member.getUserName())
                         .createdAt(LocalDateTime.now())
                         .expireAt(LocalDateTime.now().plusDays(15))
                         .build()
@@ -58,5 +61,12 @@ public class AuthService {
         refreshTokenRepository.save(refreshToken);
 
         return refreshToken.getRefreshToken();
+    }
+
+    @EventListener
+    public void handleMemberRegisterEvent(MemberRegisterEvent event) {
+        log.debug("handleMemberRegisterEvent: {}", event);
+        log.debug("id: {}", event.getUserId());
+        log.debug("password: {}", event.getPassword());
     }
 }

@@ -1,7 +1,7 @@
 package com.project.abook.auth.infrastructure;
 
 import com.project.abook.auth.domain.Authority;
-import com.project.abook.auth.dto.response.TokenResponse;
+import com.project.abook.auth.dto.response.response.TokenResponse;
 import com.project.abook.global.exception.ErrorCode;
 import com.project.abook.global.exception.JwtException;
 import io.jsonwebtoken.Claims;

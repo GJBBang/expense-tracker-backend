@@ -31,7 +31,7 @@ public class MemberService {
     public Long save(MemberRegisterRequest request) {
 
         // member 저장 전 검증
-        checkDuplicateMemberName(request.getMemberName());
+        checkDuplicateUserName(request.getUserName());
 
 
         // 저장
@@ -44,14 +44,14 @@ public class MemberService {
         return memberRepository.save(member).getId();
     }
 
-    public void checkDuplicateMemberName(String memberName) {
-        ServiceUtils.throwIfExists(() -> memberRepository.existsByMemberName(memberName),
+    public void checkDuplicateUserName(String userName) {
+        ServiceUtils.throwIfExists(() -> memberRepository.existsByUserName(userName),
                 ErrorCode.MEMBER_USERNAME_DUPLICATED);
     }
 
     @Transactional(readOnly = true)
-    public Member findByMemberName(String memberName) {
-        return memberRepository.findByMemberName(memberName)
+    public Member findByUserName(String userName) {
+        return memberRepository.findByUserName(userName)
                 .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND_BY_MEMBER_NAME));
     }
 }

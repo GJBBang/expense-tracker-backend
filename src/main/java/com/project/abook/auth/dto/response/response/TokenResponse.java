@@ -1,4 +1,4 @@
-package com.project.abook.auth.dto.response;
+package com.project.abook.auth.dto.response.response;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

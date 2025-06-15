@@ -2,7 +2,7 @@ package com.project.abook.auth.service;
 
 import com.project.abook.auth.domain.RefreshToken;
 import com.project.abook.auth.dto.request.LoginRequest;
-import com.project.abook.auth.dto.response.TokenResponse;
+import com.project.abook.auth.dto.response.response.TokenResponse;
 import com.project.abook.auth.infrastructure.JwtTokenProvider;
 import com.project.abook.auth.repository.RefreshTokenRepository;
 import com.project.abook.global.exception.BusinessException;
@@ -32,10 +32,10 @@ public class AuthService {
 
 
     public void login(LoginRequest request) {
-        Member member = memberService.findByMemberName(request.getMemberName());
+        Member member = memberService.findByUserName(request.getUserName());
         member.checkPassword(passwordEncoder, member.getPassword());
 
-        TokenResponse tokenResponse = jwtTokenProvider.createToken(member.getMemberName(), member.getAuthority());
+        TokenResponse tokenResponse = jwtTokenProvider.createToken(member.getUserName(), member.getAuthority());
         log.debug("access token: {}", tokenResponse.getAccessToken());
 
         String refreshToken = saveRefreshToken(member, tokenResponse);
@@ -45,10 +45,10 @@ public class AuthService {
     }
 
     public String saveRefreshToken(Member member, TokenResponse tokenResponse) {
-        RefreshToken refreshToken = refreshTokenRepository.findByMemberName(member.getMemberName())
+        RefreshToken refreshToken = refreshTokenRepository.findByUserName(member.getUserName())
                 .orElse(RefreshToken.builder()
                         .refreshToken(tokenResponse.getRefreshToken())
-                        .memeberName(member.getMemberName())
+                        .memeberName(member.getUserName())
                         .createdAt(LocalDateTime.now())
                         .expireAt(LocalDateTime.now().plusDays(15))
                         .build()

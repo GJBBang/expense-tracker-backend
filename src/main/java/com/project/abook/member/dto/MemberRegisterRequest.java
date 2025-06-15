@@ -6,13 +6,15 @@ import lombok.Getter;
 @Getter
 public class MemberRegisterRequest {
 
-    private String memberName;
+    private String userId;
+    private String userName;
     private String password;
     private String email;
 
     @Builder
-    public MemberRegisterRequest(String memberName, String password, String email) {
-        this.memberName = memberName;
+    public MemberRegisterRequest(String userId, String userName, String password, String email) {
+        this.userId = userId;
+        this.userName = userName;
         this.password = password;
         this.email = email;
     }

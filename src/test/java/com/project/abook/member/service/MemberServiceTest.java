@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
 @Transactional
 class MemberServiceTest {
@@ -21,7 +23,8 @@ class MemberServiceTest {
     void 회원저장() throws Exception {
         // given
         MemberRegisterRequest memberRegisterRequest = MemberRegisterRequest.builder()
-                .username("aUser")
+                .userId("aaaa")
+                .userName("aUser")
                 .password("1111")
                 .email("abc@abc.aaa")
                 .build();
@@ -31,6 +34,6 @@ class MemberServiceTest {
         Member saveMember = memberRepository.findById(memberId).get();
 
         // then
-        assertEquals("aUser", saveMember.getUsername());
+        assertEquals("aUser", saveMember.getUserName());
     }
 }

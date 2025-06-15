@@ -5,6 +5,7 @@ import com.project.abook.auth.dto.request.LoginRequest;
 import com.project.abook.auth.dto.response.LoginResponse;
 import com.project.abook.auth.dto.response.TokenResponse;
 import com.project.abook.auth.infrastructure.JwtTokenProvider;
+import com.project.abook.auth.mapper.AuthMapper;
 import com.project.abook.auth.repository.RefreshTokenRepository;
 import com.project.abook.member.domain.Member;
 import com.project.abook.member.dto.event.MemberRegisterEvent;
@@ -30,6 +31,8 @@ public class AuthService {
     private final MemberService memberService;
 
     private final RefreshTokenRepository refreshTokenRepository;
+
+    private final AuthMapper authMapper;
 
 
     public LoginResponse login(LoginRequest request) {
@@ -65,8 +68,8 @@ public class AuthService {
 
     @EventListener
     public void handleMemberRegisterEvent(MemberRegisterEvent event) {
-        log.debug("handleMemberRegisterEvent: {}", event);
-        log.debug("id: {}", event.getUserId());
-        log.debug("password: {}", event.getPassword());
+        LoginRequest loginRequest = authMapper.toLoginRequest(event);
+        LoginResponse loginResponse = login(loginRequest);
+        log.debug("loginResponse: {}", loginResponse.toString());
     }
 }

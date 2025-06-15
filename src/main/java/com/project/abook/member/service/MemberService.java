@@ -33,7 +33,6 @@ public class MemberService {
         // member 저장 전 검증
         checkDuplicateUserName(request.getUserName());
 
-
         // 저장
         Member member = memberMapper.toMember(request);
         member.encryptPassword(passwordEncoder);
@@ -45,7 +44,6 @@ public class MemberService {
                 .password(request.getPassword())
                 .build()
         );
-
         return 1L;
     }
 

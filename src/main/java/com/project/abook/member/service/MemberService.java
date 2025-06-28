@@ -57,8 +57,7 @@ public class MemberService {
         );
 
         try {
-            // 3. 이벤트 리스너에서 토큰이 완료될 때까지 기다림
-            String accessToken = accessTokenFuture.get(); // 블로킹 호출 (하지만 비동기 처리를 기다림)
+            String accessToken = accessTokenFuture.get(); // 블로킹 호출
             return LoginResponse.builder()
                     .userId(member.getUserId())
                     .token(accessToken)

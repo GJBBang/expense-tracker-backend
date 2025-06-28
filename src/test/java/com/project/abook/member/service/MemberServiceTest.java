@@ -1,5 +1,6 @@
 package com.project.abook.member.service;
 
+import com.project.abook.auth.dto.response.LoginResponse;
 import com.project.abook.member.domain.Member;
 import com.project.abook.member.dto.request.MemberRegisterRequest;
 import com.project.abook.member.repository.MemberRepository;
@@ -30,8 +31,8 @@ class MemberServiceTest {
                 .build();
 
         // when
-        Long memberId = memberService.save(memberRegisterRequest);
-        Member saveMember = memberRepository.findById(memberId).get();
+        LoginResponse loginResponse = memberService.save(memberRegisterRequest);
+        Member saveMember = memberRepository.findByUserId(loginResponse.getUserId()).get();
 
         // then
         assertEquals("aUser", saveMember.getUserName());

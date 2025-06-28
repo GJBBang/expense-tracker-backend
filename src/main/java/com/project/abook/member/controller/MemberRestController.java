@@ -1,5 +1,6 @@
 package com.project.abook.member.controller;
 
+import com.project.abook.auth.dto.response.LoginResponse;
 import com.project.abook.global.dto.ApiResponse;
 import com.project.abook.member.dto.request.MemberRegisterRequest;
 import com.project.abook.member.service.MemberService;
@@ -22,11 +23,7 @@ public class MemberRestController {
 
     @PostMapping("/join")
     public ResponseEntity join(@RequestBody MemberRegisterRequest request) {
-        memberService.save(request);
-
-        Map<String, Object> data = new HashMap<>();
-        data.put("token", "2103fsodjf002e0");
-
-        return ResponseEntity.ok(ApiResponse.ok("회원가입 성공", data));
+        LoginResponse loginResponse = memberService.save(request);
+        return ResponseEntity.ok(ApiResponse.ok("회원가입 성공", loginResponse));
     }
 }

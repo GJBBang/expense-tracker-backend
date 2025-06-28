@@ -1,6 +1,7 @@
 package com.project.abook.member.service;
 
 import com.project.abook.auth.domain.RefreshToken;
+import com.project.abook.auth.dto.response.LoginResponse;
 import com.project.abook.auth.repository.RefreshTokenRepository;
 import com.project.abook.global.exception.BusinessException;
 import com.project.abook.global.exception.ErrorCode;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Slf4j
@@ -35,7 +37,7 @@ public class MemberService {
 
 
 
-    public Long save(MemberRegisterRequest request) {
+    public LoginResponse save(MemberRegisterRequest request) {
 
         // member 저장 전 검증
         checkDuplicateUserName(request.getUserName());
@@ -46,20 +48,25 @@ public class MemberService {
         memberRepository.save(member);
 
         // 자동 로그인 이벤트 처리 (순환 참조로 인한 이벤트리스너 처리)
+        CompletableFuture<String> accessTokenFuture = new CompletableFuture<>();
         eventPublisher.publishEvent(MemberRegisterEvent.builder()
                 .userId(request.getUserId())
                 .password(request.getPassword())
+                .accessTokenFuture(accessTokenFuture)
                 .build()
         );
 
-        // 로그인 응답 처리
-        log.debug("Save member id : {}", member.getUserId());
-        log.debug("Save member password : {}", member.getPassword());
-
-        refreshTokenRepository.findByUserId(member.getUserId());
-        // 자동 로그인에서 access token 어떻게 반환하지 ?
-
-        return 1L;
+        try {
+            // 3. 이벤트 리스너에서 토큰이 완료될 때까지 기다림
+            String accessToken = accessTokenFuture.get(); // 블로킹 호출 (하지만 비동기 처리를 기다림)
+            return LoginResponse.builder()
+                    .userId(member.getUserId())
+                    .token(accessToken)
+                    .build();
+        } catch (Exception e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("자동 로그인 처리 중 오류 발생", e);
+        }
     }
 
     public void checkDuplicateUserName(String userName) {

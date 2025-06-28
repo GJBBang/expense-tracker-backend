@@ -13,6 +13,7 @@ import com.project.abook.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,10 +41,8 @@ public class AuthService {
 //        member.checkPassword(passwordEncoder, member.getPassword());
 
         TokenResponse tokenResponse = jwtTokenProvider.createToken(member.getUserId(), member.getAuthority());
-        log.debug("access token: {}", tokenResponse.getAccessToken());
 
         String refreshToken = saveRefreshToken(member, tokenResponse);
-        log.debug("refresh token: {}", refreshToken);
 
         return LoginResponse.builder()
                 .userId(member.getUserId())
@@ -67,8 +66,14 @@ public class AuthService {
     }
 
     @EventListener
+    @Async
     public void handleMemberRegisterEvent(MemberRegisterEvent event) {
         LoginRequest loginRequest = authMapper.toLoginRequest(event);
         LoginResponse loginResponse = login(loginRequest);
+        try {
+            event.getAccessTokenFuture().complete(loginResponse.getToken()); // 토큰 설정
+        } catch (Exception e) {
+            event.getAccessTokenFuture().completeExceptionally(e); // 예외 발생 시
+        }
     }
 }

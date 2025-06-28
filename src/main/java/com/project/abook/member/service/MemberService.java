@@ -64,7 +64,8 @@ public class MemberService {
                     .build();
         } catch (Exception e) {
             Thread.currentThread().interrupt();
-            throw new RuntimeException("자동 로그인 처리 중 오류 발생", e);
+            log.error(e.getMessage(), e);
+            throw new BusinessException(ErrorCode.GLOBAL_INTERNAL_SERVER_ERROR);
         }
     }
 

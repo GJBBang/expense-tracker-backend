@@ -38,11 +38,12 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
         Member member = memberService.findByUserId(request.getUserId());
-//        member.checkPassword(passwordEncoder, member.getPassword());
+        member.checkPassword(passwordEncoder, member.getPassword());
 
         TokenResponse tokenResponse = jwtTokenProvider.createToken(member.getUserId(), member.getAuthority());
 
         String refreshToken = saveRefreshToken(member, tokenResponse);
+        log.debug("Refresh token: {}", refreshToken);
 
         return LoginResponse.builder()
                 .userId(member.getUserId())

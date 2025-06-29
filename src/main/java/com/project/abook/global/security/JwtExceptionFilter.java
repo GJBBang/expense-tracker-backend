@@ -1,6 +1,7 @@
 package com.project.abook.global.security;
 
 
+import com.project.abook.global.exception.ErrorResponse;
 import com.project.abook.global.exception.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,7 +28,7 @@ class JwtExceptionFilter extends OncePerRequestFilter {
     private void sendErrorMessage(HttpServletResponse response, JwtException e) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(e.getErrorCode().getHttpStatus().value());
-        response.getWriter().write("JWT 에러");
+        response.getWriter().write(ErrorResponse.toJson(e));
     }
 
 }

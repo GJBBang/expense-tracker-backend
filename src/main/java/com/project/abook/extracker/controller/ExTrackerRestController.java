@@ -2,6 +2,8 @@ package com.project.abook.extracker.controller;
 
 import com.project.abook.extracker.domain.ExTracker;
 import com.project.abook.extracker.service.ExTrackerService;
+import com.project.abook.global.exception.BusinessException;
+import com.project.abook.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +26,7 @@ public class ExTrackerRestController implements ExTrackerRestControllerDocs {
     @GetMapping("/{id}")
     public ResponseEntity<String> getExTracker(@PathVariable("id") Long id) {
         ExTracker exTracker = exTrackerService.findById(id)
-                .orElseThrow(() -> new RuntimeException("ExTracker not found"));
+                .orElseThrow(() -> new BusinessException(ErrorCode.EXTRACKER_NOT_FOUND_BY_EXTRACKER_ID));
 
         return ResponseEntity.ok(exTracker.toString());
     }

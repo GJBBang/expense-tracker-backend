@@ -37,6 +37,9 @@ public enum ErrorCode {
     MEMBER_NOT_SOCIAL_USER(HttpStatus.CONFLICT, "해당 회원은 소셜 아이디 로그인 회원이 아닙니다.", "M07"),
     MEMBER_NOT_YOUR_PHONE_NUMBER(HttpStatus.CONFLICT, "회원의 전화번호가 아닙니다.", "M08"),
 
+    // exTracker
+    EXTRACKER_NOT_FOUND_BY_EXTRACKER_ID(HttpStatus.NOT_FOUND, "존재하지 않는 가계부입니다.", "ET01"),
+
     ;
 
     private final HttpStatus httpStatus;

@@ -1,6 +1,5 @@
 package com.project.abook.member.service;
 
-import com.project.abook.auth.domain.RefreshToken;
 import com.project.abook.auth.dto.response.LoginResponse;
 import com.project.abook.auth.repository.RefreshTokenRepository;
 import com.project.abook.global.exception.BusinessException;
@@ -18,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 @Service

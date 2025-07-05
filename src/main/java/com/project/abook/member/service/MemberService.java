@@ -38,6 +38,7 @@ public class MemberService {
     public LoginResponse save(MemberRegisterRequest request) {
 
         // member 저장 전 검증
+        checkDuplicateUserId(request.getUserId());
         checkDuplicateUserName(request.getUserName());
 
         // 저장
@@ -65,6 +66,11 @@ public class MemberService {
             log.error(e.getMessage(), e);
             throw new BusinessException(ErrorCode.GLOBAL_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public void checkDuplicateUserId(String userId) {
+        ServiceUtils.throwIfExists(() -> memberRepository.existsByUserId(userId),
+                ErrorCode.MEMBER_LOGIN_ID_DUPLICATED);
     }
 
     public void checkDuplicateUserName(String userName) {

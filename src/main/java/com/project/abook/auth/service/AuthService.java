@@ -38,7 +38,7 @@ public class AuthService {
 
     public LoginResponse login(LoginRequest request) {
         Member member = memberService.findByUserId(request.getUserId());
-        member.checkPassword(passwordEncoder, member.getPassword());
+        member.checkPassword(passwordEncoder, request.getPassword());
 
         TokenResponse tokenResponse = jwtTokenProvider.createToken(member.getUserId(), member.getAuthority());
 

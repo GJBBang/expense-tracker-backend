@@ -47,8 +47,6 @@ public class ExTrackerRestController implements ExTrackerRestControllerDocs {
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateExTracker(@RequestBody ExTracker exTracker) {
 
-        exTrackerService.update(exTracker);
-
         return ResponseEntity.noContent().build();
     }
 }

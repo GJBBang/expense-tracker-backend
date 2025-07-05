@@ -1,18 +1,28 @@
 package com.project.abook.extracker.service;
 
 import com.project.abook.extracker.domain.ExTracker;
+import com.project.abook.extracker.repository.ExTrackerRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface ExTrackerService {
+@Service
+@RequiredArgsConstructor
+public class ExTrackerService {
 
-    Optional<ExTracker> findById(Long id);
+    private final ExTrackerRepository exTrackerRepository;
 
-    List<ExTracker> findAll();
+    public Optional<ExTracker> findById(Long id) {
+        return exTrackerRepository.findById(id);
+    }
 
-    ExTracker save(ExTracker exTracker);
+    public List<ExTracker> findAll() {
+        return exTrackerRepository.findAll();
+    }
 
-    void update(ExTracker exTracker);
-
+    public ExTracker save(ExTracker exTracker) {
+        return exTrackerRepository.save(exTracker);
+    }
 }

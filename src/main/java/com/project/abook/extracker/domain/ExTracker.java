@@ -2,6 +2,7 @@ package com.project.abook.extracker.domain;
 
 import com.project.abook.global.domain.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -19,6 +20,7 @@ public class ExTracker extends BaseEntity {
 
     @Schema(defaultValue = "1")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "extracker_id")
     private Long id;
 
     private LocalDate date;              // 날짜 (지출/수입 날짜)
